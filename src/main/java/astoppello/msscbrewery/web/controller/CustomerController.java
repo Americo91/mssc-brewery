@@ -2,6 +2,7 @@ package astoppello.msscbrewery.web.controller;
 
 import astoppello.msscbrewery.service.CustomerService;
 import astoppello.msscbrewery.web.model.CustomerDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class CustomerController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<CustomerDto> handlePost(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> handlePost(@RequestBody @Valid CustomerDto customerDto) {
         CustomerDto savedCustomer = customerService.saveNewCustomer(customerDto);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("location", CUSTOMER_URL_PATH + "/" + savedCustomer.getId().toString());
@@ -39,7 +40,7 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_ID_PATH)
-    public ResponseEntity handleUpdate(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customerDto) {
+    public ResponseEntity handleUpdate(@PathVariable("customerId") UUID customerId, @RequestBody @Valid CustomerDto customerDto) {
         customerService.updateCustomer(customerId, customerDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

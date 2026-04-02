@@ -1,6 +1,7 @@
 package astoppello.msscbrewery.service;
 
 import astoppello.msscbrewery.web.model.BeerDto;
+import astoppello.msscbrewery.web.model.BeerStyleEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -15,7 +16,7 @@ public class BeerServiceImpl implements BeerService{
         return Collections.singletonList(BeerDto.builder()
                 .id(UUID.randomUUID())
                 .beerName("Galaxy Cat")
-                .beerStyle("Pale Ale")
+                .beerStyle(BeerStyleEnum.PALE_ALE)
                 .build());
     }
 
@@ -23,7 +24,7 @@ public class BeerServiceImpl implements BeerService{
     public BeerDto getBeerById(UUID beerId) {
         return BeerDto.builder().id(UUID.randomUUID())
                 .beerName("Galaxy Cat")
-                .beerStyle("Pale Ale")
+                .beerStyle(BeerStyleEnum.PALE_ALE)
                 .build();
     }
 

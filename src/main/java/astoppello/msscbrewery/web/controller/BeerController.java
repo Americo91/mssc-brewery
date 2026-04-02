@@ -2,6 +2,7 @@ package astoppello.msscbrewery.web.controller;
 
 import astoppello.msscbrewery.service.BeerService;
 import astoppello.msscbrewery.web.model.BeerDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,25 +32,23 @@ public class BeerController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BeerDto> handlePost(@RequestBody BeerDto beerDto) {
+    public ResponseEntity<BeerDto> handlePost(@RequestBody @Valid BeerDto beerDto) {
         BeerDto savedBeer = beerService.saveNewBeer(beerDto);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("location", BEER_URL_PATH + "/"+ savedBeer.getId().toString());
+        httpHeaders.add("location", BEER_URL_PATH + "/" + savedBeer.getId().toString());
         return new ResponseEntity<>(savedBeer, httpHeaders, HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto) {
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody @Valid BeerDto beerDto) {
         beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(BEER_ID_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBeer(@PathVariable("beerId") UUID beerId){
+    public void deleteBeer(@PathVariable("beerId") UUID beerId) {
         beerService.delete(beerId);
     }
-
-
 
 }

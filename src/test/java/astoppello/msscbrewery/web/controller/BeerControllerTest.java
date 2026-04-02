@@ -2,6 +2,7 @@ package astoppello.msscbrewery.web.controller;
 
 import astoppello.msscbrewery.service.BeerService;
 import astoppello.msscbrewery.web.model.BeerDto;
+import astoppello.msscbrewery.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MediaType;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class BeerControllerTest {
     public void setUp() {
         validBeer = BeerDto.builder().id(UUID.randomUUID())
                 .beerName("Beer1")
-                .beerStyle("PALE_ALE")
+                .beerStyle(BeerStyleEnum.PALE_ALE)
                 .upc(123456789012L)
                 .build();
     }
@@ -90,10 +91,11 @@ class BeerControllerTest {
     public void handleUpdate() throws Exception {
         //given
         BeerDto beerDto = validBeer;
+        beerDto.setId(null);
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
         //when
-        mockMvc.perform(put("/api/v1/beer/" + validBeer.getId())
+        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON.toString())
                         .content(beerDtoJson))
                 .andExpect(status().isNoContent());
